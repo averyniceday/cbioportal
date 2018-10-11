@@ -34,6 +34,7 @@
 <%@ taglib prefix='c' uri='http://java.sun.com/jsp/jstl/core' %>
 <%@ taglib prefix="s" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<jsp:include page="js_include_standard.jsp" flush="true" />
 <%
     String principal = "";
     String authenticationMethod = GlobalProperties.authenticationMethod();
@@ -103,6 +104,52 @@ function openSoicalAuthWindow() {
     }, 500);
 };
 
+function constructDownloadableTokenFile(tokenResponse) {
+    returnString = "Your token is contained below. All previous tokens are now invalid.\n" + 
+                   "Created: " + tokenResponse["creation"] + "\n" + 
+                   "Expires: " + tokenResponse["expiration"] + "\n" +
+                   "===============================================\n" +
+                   "Token: " + tokenResponse["token"];
+    return returnString;
+}
+
+function initiateTokenFileDownload(tokenFileContent) {
+    var opts = {
+        filename: "cbioportal_data_access_token.txt", // download file name
+        contentType: "text/plain", // download data type,
+        dataType: null,      // servlet data type
+        servletName: null,   // name of the data/conversion servlet (optional)
+        servletParams: null, // servlet parameters (optional)
+        preProcess: null,   // pre-process function for the provided data
+        postProcess: null // post-process function for the data returned by the server (optional)
+    };
+    console.log("DOWNLOADING");
+    cbio.download.initDownload(tokenFileContent, opts);    
+}
+ 
+window.onReactAppReady(function() {
+    $('#requestDataAccessToken').click(function() {
+        // Make call to api endpoint for token
+        // Check response for status code or error
+        // Construct output string from JSON response (with token info)
+        // Transfer output string to user 
+            
+        //window.cbioURL is defined in header.jsp but not set when we reach this point
+        window.cbioURL =  window.location.origin + window.location.pathname.substring(0, window.location.pathname.indexOf("/",2))+'/';
+        console.log("TEST MESSAGE FOR WINDOW.CBIOURL" + window.cbioURL);
+        $.ajax({
+            type: 'POST',
+            url: window.cbioURL + 'api-legacy/dataAccessToken?allowRevocationOfOtherTokens=true',
+            dataType: 'json',
+            contentType: "application/json; charset=utf-8",
+        }).then(function(data) {
+            var downloadContent = constructDownloadableTokenFile(data);
+            initiateTokenFileDownload(downloadContent);    
+        }).fail(function() {
+            initiateTokenFileDownload("Error: Data access tokens feature is disabled for this account.");    
+        });
+    });
+});
 </script>
 
 <header>
@@ -185,6 +232,7 @@ function openSoicalAuthWindow() {
         <%-- Display Sign Out Button for Real (Non-Anonymous) User --%>
 	        <sec:authorize access="!hasRole('ROLE_ANONYMOUS')">
 	            <div class="identity">Logged in as <sec:authentication property="${principal}" />&nbsp;|&nbsp;
+                        <a id="requestDataAccessToken">Get Token</a> 
 	            <c:choose>
 	                <c:when test="${authenticationMethod == 'saml'}">
 	                    <a href="${samlLogoutUrl}">Sign out</a>
