@@ -51,6 +51,8 @@ import org.springframework.web.filter.DelegatingFilterProxy;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.mock.web.MockHttpServletRequest;
+import org.springframework.mock.web.MockHttpSession;
+import javax.servlet.http.HttpSession;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations={"/applicationContext-web.xml", "/applicationContext-security.xml"})
@@ -76,23 +78,32 @@ public class DataAccessTokenControllerTestMockMvc {
     private ObjectMapper objectMapper = new ObjectMapper();
 
     @Autowired
-    private TokenAuthenticationFilter tokenAuthenticationFilter; 
-
-    @Autowired
     private FilterChainProxy filterChainProxy;
 
     @Before
     public void setUp() throws Exception {
         mockMvc = MockMvcBuilders.webAppContextSetup(wac).addFilter(filterChainProxy).build();
     }
-   
+
+    private HttpSession getSession(String user, String password) throws Exception {
+        return mockMvc.perform(MockMvcRequestBuilders.post("/j_spring_security_check")
+                               .param("j_username", user)
+                               .param("j_password", password))
+            .andExpect(MockMvcResultMatchers.status().isOk())
+            .andReturn()
+            .getRequest()
+            .getSession();
+    }
     @Test
     public void createTokenValidUserTest() throws Exception {
+        // user and password should match what is in test version of security context xml
+        HttpSession session = getSession("cbioportal-user", "password");
         Mockito.when(tokenService.createDataAccessToken(Matchers.any(), Matchers.anyBoolean())).thenReturn(MOCK_TOKEN_INFO);
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post("/data-access-tokens")
-            .accept(MediaType.APPLICATION_JSON)
-            .contentType(MediaType.APPLICATION_JSON)
-            .param("allowRevocationOfTokens", "true"))
+                                           .session((MockHttpSession)session)
+                                           .accept(MediaType.APPLICATION_JSON)
+                                           .contentType(MediaType.APPLICATION_JSON)
+                                           .param("allowRevocationOfTokens", "true"))
             .andExpect(MockMvcResultMatchers.status().isOk())
             .andReturn();
         System.out.println("Response: " + result.getResponse().getContentAsString() + "   " + result.getHandler() + "   " + result.getResponse().getStatus());

@@ -8,61 +8,57 @@
                         http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
                         http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd">
    
-    <!-- Data Access Tokens beans -->
-    <b:bean id="tokenAuthenticationFilter" class="org.cbioportal.web.config.TokenAuthenticationFilter">
-        <b:property name="authenticationManager" ref="tokenAuthenticationManager" />
-        <b:property name="authenticationSuccessHandler" ref="tokenSuccessRedirectHandler"/>
-    </b:bean>
-
-    <b:bean id="exceptionTranslationFilter" class="org.springframework.security.web.access.ExceptionTranslationFilter">
-        <b:constructor-arg index = "0" ref="restAuthenticationEntryPoint" />
-    </b:bean>
-    <!--b:bean class="org.cbioportal.web.config.DataAccessTokenControllerConfig"/--> 
-    
-    <b:bean  id="tokenServiceFactory" class="org.springframework.beans.factory.config.ServiceLocatorFactoryBean">
-        <b:property name="serviceLocatorInterface" value="org.cbioportal.service.DataAccessTokenServiceFactory"/>
-    </b:bean>
-    <!-- WARNING: if you define another authentication-manager AFTER this one, this one
-        will be overridden, even if you use <http ... pattern="/api/**" ... authentication-manager-ref="tokenAuthenticationManager">
-        AND even though the authenticationManager is defined as a property of tokenAuthenticationFilter
-        so you must add <authentication-provider ref="tokenUserDetailsAuthenticationProvider"/> to your
-        other authentication-manager, and tokenUserDetailsAuthenticationProvider should come before other authentication-providers -->
-    <authentication-manager alias="tokenAuthenticationManager">
-        <authentication-provider ref="tokenUserDetailsAuthenticationProvider"/>
-    </authentication-manager>
-    
-    <b:bean id="tokenSuccessRedirectHandler" class="org.cbioportal.web.config.TokenAuthenticationSuccessHandler"/>
-
-    <b:bean id="tokenUserDetailsAuthenticationProvider" class="org.cbioportal.web.config.TokenUserDetailsAuthenticationProvider">
-        <b:constructor-arg index="0" ref="portalUserDetailsService" />
-    </b:bean>
-    <b:bean id="portalUserDetailsService" class="org.cbioportal.web.config.PortalUserDetailsService"/>
-
-    <!-- We are autowiring some components from web into the customPermissionEvaluator below -->
-    <context:component-scan base-package="org.cbioportal.web.util" />
-
     <!-- support for general annotations within class definitions (used in AccessControl) -->
     <context:annotation-config/>
 
     <!-- This must come before the default entry point which will capture everything not matched by pattern -->
-    <http use-expressions="true" pattern="/api/**" entry-point-ref="restAuthenticationEntryPoint" create-session="never">
+    <http use-expressions="true" entry-point-ref="restAuthenticationEntryPoint">
         <intercept-url pattern="/**" access="isAuthenticated()"/>
         <csrf disabled="true"/>
         <custom-filter ref="tokenAuthenticationFilter" before="FORM_LOGIN_FILTER"/>
+        <custom-filter ref="basicAuthenticationFilter" position="FORM_LOGIN_FILTER" />
     </http>
 
     <b:bean id="restAuthenticationEntryPoint" class="org.cbioportal.web.config.RestAuthenticationEntryPoint"/>
-    <!-- Handler deciding where to redirect user after successful login -->
-    <b:bean id="successRedirectHandler" class="org.cbioportal.web.config.PortalSavedRequestAwareAuthenticationSuccessHandler">
-        <b:property name="defaultTargetUrl" value="/index.do"/>
-        <b:property name="alwaysUseDefaultTargetUrl" value="false"/>
-        <b:property name="targetUrlParameter" value="spring-security-redirect"/>
+
+    <!-- Data Access Tokens beans -->
+    <b:bean id="tokenAuthenticationFilter" class="org.cbioportal.web.config.TokenAuthenticationFilter">
+        <b:property name="authenticationManager" ref="authenticationManager" />
+        <b:property name="authenticationSuccessHandler" ref="successRedirectHandler"/>
     </b:bean>
-    <!-- End of Data Access Tokens beans -->
-    <b:bean id="filterChainProxy" class="org.springframework.security.web.FilterChainProxy">
-        <filter-chain-map>
-                <filter-chain pattern="/**" filters="
-                        tokenAuthenticationFilter, exceptionTranslationFilter"/>
-        </filter-chain-map>
+
+    <b:bean id="basicAuthenticationFilter" class="org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter">
+      <b:property name="authenticationManager" ref="authenticationManager"/>
+      <b:property name="authenticationSuccessHandler" ref="successRedirectHandler"/>
+      <b:property name="postOnly" value="false"/>
+      <b:property name="usernameParameter" value="j_username"/>
+      <b:property name="passwordParameter" value="j_password"/>
+      <b:property name="filterProcessesUrl" value="/j_spring_security_check"/>
     </b:bean>
+
+    <b:bean id="successRedirectHandler" class="org.cbioportal.web.config.TokenAuthenticationSuccessHandler"/>
+
+     <!-- WARNING: if you define another authentication-manager AFTER this one, this one
+        will be overridden, even if you use <http ... pattern="/api/**" ... authentication-manager-ref="tokenAuthenticationManager">
+        AND even though the authenticationManager is defined as a property of tokenAuthenticationFilter
+        so you must add <authentication-provider ref="tokenUserDetailsAuthenticationProvider"/> to your
+        other authentication-manager, and tokenUserDetailsAuthenticationProvider should come before other authentication-providers -->
+    <authentication-manager alias="authenticationManager">
+        <authentication-provider ref="tokenUserDetailsAuthenticationProvider"/>
+        <authentication-provider>
+            <user-service>
+              <!-- name and password should match what is in MockMVC test -->
+                <user name="cbioportal-user" password="{noop}password" authorities="PLACEHOLDER_ROLE" />
+            </user-service>
+        </authentication-provider>
+    </authentication-manager>
+    <b:bean id="tokenUserDetailsAuthenticationProvider" class="org.cbioportal.web.config.TokenUserDetailsAuthenticationProvider">
+        <b:constructor-arg index="0" ref="portalUserDetailsService" />
+    </b:bean>
+    <b:bean id="portalUserDetailsService" class="org.cbioportal.web.config.PortalUserDetailsService"/>
+    
+    <b:bean  id="tokenServiceFactory" class="org.springframework.beans.factory.config.ServiceLocatorFactoryBean">
+        <b:property name="serviceLocatorInterface" value="org.cbioportal.service.DataAccessTokenServiceFactory"/>
+    </b:bean>
+
 </b:beans>
