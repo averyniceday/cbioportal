@@ -36,6 +36,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.cbioportal.model.Entity;
 import org.cbioportal.model.MolecularProfile;
 import org.cbioportal.model.SampleList;
 import org.cbioportal.persistence.mybatis.util.CacheMapUtil;
@@ -45,6 +46,7 @@ import org.cbioportal.web.parameter.ClinicalDataMultiStudyFilter;
 import org.cbioportal.web.parameter.GenePanelMultipleStudyFilter;
 import org.cbioportal.web.parameter.MolecularDataMultipleStudyFilter;
 import org.cbioportal.web.parameter.MolecularProfileFilter;
+import org.cbioportal.web.parameter.MultipleStudiesEnrichmentFilter;
 import org.cbioportal.web.parameter.MutationMultipleStudyFilter;
 import org.cbioportal.web.parameter.PatientFilter;
 import org.cbioportal.web.parameter.PatientIdentifier;
@@ -54,7 +56,6 @@ import org.cbioportal.web.parameter.SampleMolecularIdentifier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
@@ -80,6 +81,8 @@ public class InvolvedCancerStudyExtractorInterceptor extends HandlerInterceptorA
     public static final String MOLECULAR_DATA_MULTIPLE_STUDY_FETCH_PATH = "/molecular-data/fetch";
     public static final String MUTATION_MULTIPLE_STUDY_FETCH_PATH = "/mutations/fetch";
     public static final String COPY_NUMBER_SEG_FETCH_PATH = "/copy-number-segments/fetch";
+    public static final String MUTATION_ENRICHMENT_FETCH_PATH = "/mutation-enrichments/fetch";
+    public static final String COPY_NUMBER_ENRICHMENT_FETCH_PATH = "/copy-number-enrichments/fetch";
 
     @Override public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         if (!request.getMethod().equals("POST")) {
@@ -105,6 +108,8 @@ public class InvolvedCancerStudyExtractorInterceptor extends HandlerInterceptorA
             return extractAttributesFromMutationMultipleStudyFilter(wrappedRequest);
         } else if (requestPathInfo.equals(COPY_NUMBER_SEG_FETCH_PATH)) {
             return extractAttributesFromSampleIdentifiers(wrappedRequest);
+        } else if (requestPathInfo.equals(MUTATION_ENRICHMENT_FETCH_PATH) || requestPathInfo.equals(COPY_NUMBER_ENRICHMENT_FETCH_PATH)) {
+            return extractAttributesFromMultipleStudiesEnrichmentFilter(wrappedRequest);
         }
         return true;
     }
@@ -354,6 +359,24 @@ public class InvolvedCancerStudyExtractorInterceptor extends HandlerInterceptorA
         return true;
     }
 
+    private boolean extractAttributesFromMultipleStudiesEnrichmentFilter(HttpServletRequest request) {
+        try {
+            MultipleStudiesEnrichmentFilter multiStudyEnrichmentFilter = objectMapper.readValue(request.getReader(), MultipleStudiesEnrichmentFilter.class);
+            LOG.debug("extracted multiStudyEnrichmentFilter: " + multiStudyEnrichmentFilter.toString());
+            LOG.debug("setting interceptedMultiStudyEnrichmentFilter to " + multiStudyEnrichmentFilter);
+            request.setAttribute("interceptedMultiStudyEnrichmentFilter", multiStudyEnrichmentFilter);
+            if (cacheMapUtil.hasCacheEnabled()) {
+                Collection<String> cancerStudyIdCollection = extractCancerStudyIdsFromMultiStudyEnrichmentFilter(multiStudyEnrichmentFilter.getSet1(), multiStudyEnrichmentFilter.getSet2());
+                LOG.debug("setting involvedCancerStudies to " + cancerStudyIdCollection);
+                request.setAttribute("involvedCancerStudies", cancerStudyIdCollection);
+            }
+        } catch (Exception e) {
+            LOG.error("exception thrown during extraction of mutationMultipleStudyFilter: " + e);
+            return false;
+        }
+        return true;
+    }
+
     private Set<String> extractCancerStudyIdsFromSampleIdentifiers(Collection<SampleIdentifier> sampleIdentifiers) {
         Set<String> studyIdSet = new HashSet<String>();
         extractCancerStudyIdsFromSampleIdentifiers(sampleIdentifiers, studyIdSet);
@@ -389,4 +412,16 @@ public class InvolvedCancerStudyExtractorInterceptor extends HandlerInterceptorA
         extractCancerStudyIdsFromMolecularProfileIds(molecularProfileIds, studyIdSet);
     }
 
+    private Set<String> extractCancerStudyIdsFromMultiStudyEnrichmentFilter(Collection<Entity> set1, Collection<Entity> set2) {
+        Set<String> molecularProfileIds = new HashSet<>();
+        for (Entity entity : set1) {
+            molecularProfileIds.add(entity.getMolecularProfileId());
+        }
+        for (Entity entity : set2) {
+            molecularProfileIds.add(entity.getMolecularProfileId());
+        }
+        Set<String> studyIdSet = new HashSet<>();
+        extractCancerStudyIdsFromMolecularProfileIds(molecularProfileIds, studyIdSet);
+        return studyIdSet;
+    }
 }
