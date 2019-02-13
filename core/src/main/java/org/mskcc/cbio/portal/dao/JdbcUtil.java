@@ -94,6 +94,7 @@ public class JdbcUtil {
         try {
             con = getDataSource().getConnection();
         } catch (Exception e) {
+            logMessage("\n\n\n\n caught an exception here!!: getDataSource():" + getDataSource().getUrl().toString());
             logMessage(e.getMessage());
             throw new SQLException(e);
         }
