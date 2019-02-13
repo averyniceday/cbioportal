@@ -47,6 +47,7 @@ import java.util.*;
 public class ImportTypesOfCancers extends ConsoleRunnable {
     public void run() {
         try {
+                System.out.println("\n\n\n\nINSIDE HERE");
 	    	if (args.length < 1) {
 	            // an extra --noprogress option can be given to avoid the messages regarding memory usage and % complete
 	            throw new UsageException(
