@@ -498,6 +498,8 @@ CREATE TABLE `mutation` (
   `DRIVER_FILTER_ANNOTATION` VARCHAR(80),
   `DRIVER_TIERS_FILTER` VARCHAR(50),
   `DRIVER_TIERS_FILTER_ANNOTATION` VARCHAR(80),
+  `ASCN_ID` int(11),
+  `ANNOTATION_JSON` JSON, 
   UNIQUE KEY `UQ_MUTATION_EVENT_ID_GENETIC_PROFILE_ID_SAMPLE_ID` (`MUTATION_EVENT_ID`,`GENETIC_PROFILE_ID`,`SAMPLE_ID`), -- Constraint to block duplicated mutation entries
   KEY (`GENETIC_PROFILE_ID`,`ENTREZ_GENE_ID`),
   KEY (`GENETIC_PROFILE_ID`,`SAMPLE_ID`),
@@ -840,7 +842,20 @@ CREATE TABLE `data_access_tokens` (
     PRIMARY KEY (`TOKEN`),
     FOREIGN KEY (`USERNAME`) REFERENCES `users` (`EMAIL`) ON DELETE CASCADE
 );
-
+-- --------------------------------------------------------
+CREATE TABLE `allele_specific_copy_number` (
+    `ASCN_ID` int NOT NULL auto_increment,
+    `ASCN_INTEGER_COPY_NUMBER` DEFAULT NULL,
+    `ASCN_METHOD` varchar(24) NOT NULL,
+    `CCF_M_COPIES_UPPER` float DEFAULT NULL,
+    `CCF_M_COPIES` float DEFAULT NULL,
+    `CLONAL` boolean DEFAULT NULL,
+    `MINOR_COPY_NUMBER` int DEFAULT NULL,
+    `MUTANT_COPIES` int DEFAULT NULL,
+    `TOTAL_COPY_NUMBER` int DEFAULT NULL,
+    PRIMARY KEY (`ASCN_ID`),
+    FOREIGN KEY (`ASCN_ID`) REFERENCES `mutation` (`ASCN_ID`) ON DELETE CASCADE
+);
 -- --------------------------------------------------------
 CREATE TABLE `info` (
   `DB_SCHEMA_VERSION` varchar(24),
