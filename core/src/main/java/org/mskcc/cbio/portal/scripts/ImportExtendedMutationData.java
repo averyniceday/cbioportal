@@ -114,10 +114,10 @@ public class ImportExtendedMutationData{
         Set<MutationEvent> newEvents = new HashSet<MutationEvent>();
 
         Map<ExtendedMutation,ExtendedMutation> mutations = new HashMap<ExtendedMutation,ExtendedMutation>();
-        // long largestAscnId = DaoAlleleSpecificCopyNumber.getLargestAscnId();
-        // List<AlleleSpecificCopyNumber> ascnRecords = new ArrayList<AlleleSpecificCopyNumber>();
-
         long mutationEventId = DaoMutation.getLargestMutationEventId();
+        
+        List<AlleleSpecificCopyNumber> ascnRecords = new ArrayList<AlleleSpecificCopyNumber>();
+        long largestAscnId = DaoAlleleSpecificCopyNumber.getLargestAscnId();
 
         FileReader reader = new FileReader(mutationFile);
         BufferedReader buf = new BufferedReader(reader);
@@ -422,10 +422,10 @@ public class ImportExtendedMutationData{
                         // The AlleleSpecificCopyNumber constructor will construct the record from
                         // the ascnData hashmap and the ascnData will simultaneously be removed from
                         // the record's namespaces map since it is going into its own table
-                        // AlleleSpecificCopyNumber ascn = new AlleleSpecificCopyNumber(ascnData);
-                        // ascn.setInternalId(++largestAscnId);
-                        // ascnRecords.add(ascn);
-                        // mutation.setAscnId(ascn.getInternalId());
+                        AlleleSpecificCopyNumber ascn = new AlleleSpecificCopyNumber(ascnData);
+                        ascn.setAscnId(++largestAscnId);
+                        ascnRecords.add(ascn);
+                        mutation.setAscnId(ascn.getAscnId());
                     }
                     if (!record.getNamespacesMap().isEmpty()) {
                         mutation.setAnnotationJson(convertMapToJsonString(record.getNamespacesMap()));
@@ -467,13 +467,13 @@ public class ImportExtendedMutationData{
                 }
             }
         }
-        // immport ascn records first since mutations reference ascn db table
-        //for (AlleleSpecificCopyNumber ascn : ascnRecords) {
-        //  try {
-        //        DaoAlleleSpecificCopyNumber.addAscn(ascn);
-        //  } catch (DaoException ex) {
-        //        throw ex;
-        //  }
+ 
+        for (AlleleSpecificCopyNumber ascn : ascnRecords) { 
+            try {
+                DaoAlleleSpecificCopyNumber.addAlleleSpecificCopyNumber(ascn);
+            } catch (DaoException ex) {
+                throw ex;
+            }
 
         for (MutationEvent event : newEvents) {
             try {
