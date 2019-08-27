@@ -368,8 +368,8 @@ public class MafUtil {
                 driverTiersAnnIndex = i;
             }  else if (namespaces != null && !namespaces.isEmpty()) {
                 for (String ns : namespaces) {
-                    if (header.startsWith(ns + ":")) {
-                        String nsKey = header.replaceFirst(ns + ":", "");
+                    if (header.toLowerCase().startsWith(ns + ":")) {
+                        String nsKey = header.toLowerCase().replace(ns + ":", "");
                         Map<String, Integer> nsKeyIndexMap = this.namespaceIndexMap.getOrDefault(ns, new HashMap<String, Integer>());
                         nsKeyIndexMap.put(nsKey, i);
                         this.namespaceIndexMap.put(ns, nsKeyIndexMap);
@@ -487,6 +487,10 @@ public class MafUtil {
         }
 
         return record;
+    }
+
+    public Map<String, Map<String, Integer>> getNamespaceIndexMap() {
+        return namespaceIndexMap;
     }
 
     private void fixEndPointForInsertion(MafRecord record) {

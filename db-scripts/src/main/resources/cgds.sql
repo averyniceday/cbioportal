@@ -69,6 +69,7 @@ DROP TABLE IF EXISTS `clinical_attribute_meta`;
 DROP TABLE IF EXISTS `clinical_sample`;
 DROP TABLE IF EXISTS `clinical_patient`;
 DROP TABLE IF EXISTS `mutation_count_by_keyword`;
+DROP TABLE IF EXISTS `allele_specific_copy_number`;
 DROP TABLE IF EXISTS `mutation`;
 DROP TABLE IF EXISTS `mutation_event`;
 DROP TABLE IF EXISTS `structural_variant`;
@@ -846,7 +847,7 @@ CREATE TABLE `data_access_tokens` (
 -- --------------------------------------------------------
 CREATE TABLE `allele_specific_copy_number` (
     `ASCN_ID` bigint(20) NOT NULL auto_increment,
-    `ASCN_INTEGER_COPY_NUMBER` DEFAULT NULL,
+    `ASCN_INTEGER_COPY_NUMBER` int DEFAULT NULL,
     `ASCN_METHOD` varchar(24) NOT NULL,
     `CCF_M_COPIES_UPPER` float DEFAULT NULL,
     `CCF_M_COPIES` float DEFAULT NULL,
