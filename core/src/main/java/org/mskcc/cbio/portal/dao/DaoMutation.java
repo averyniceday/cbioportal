@@ -91,7 +91,7 @@ public final class DaoMutation {
                     mutation.getDriverFilterAnn(),
                     mutation.getDriverTiersFilter(),
                     mutation.getDriverTiersFilterAnn(),
-                    mutation.getAscnId(),
+                    Long.toString(mutation.getAscnId()),
                     mutation.getAnnotationJson());
             return result;
         }
@@ -694,7 +694,7 @@ public final class DaoMutation {
             mutation.setTumorRefCount(rs.getInt("TUMOR_REF_COUNT"));
             mutation.setNormalAltCount(rs.getInt("NORMAL_ALT_COUNT"));
             mutation.setNormalRefCount(rs.getInt("NORMAL_REF_COUNT"));
-            mutation.setAscnId(rs.getInt("ASCN_ID"));
+            mutation.setAscnId(rs.getLong("ASCN_ID"));
             mutation.setAnnotationJson(rs.getString("ANNOTATION_JSON"));
             return mutation;
         }

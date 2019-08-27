@@ -474,6 +474,7 @@ public class ImportExtendedMutationData{
             } catch (DaoException ex) {
                 throw ex;
             }
+        }
 
         for (MutationEvent event : newEvents) {
             try {
