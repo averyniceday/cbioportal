@@ -346,9 +346,11 @@ public class GeneticProfileReader {
         Properties properties = new TrimmedProperties();
         properties.load(new FileInputStream(file));
         String value = properties.getProperty("namespaces");
+        System.out.println("======> reading metafile namespace property: " + value);
         if (value != null) {
                 Set<String> namespaces = new HashSet<String>();
                 for (String ns : (Arrays.asList(value.split(",")))) {
+                        System.out.println("======> geneticProfileReader namespace " + ns);
                         ns = ns.trim();
                         namespaces.add(ns.toLowerCase());
                     }

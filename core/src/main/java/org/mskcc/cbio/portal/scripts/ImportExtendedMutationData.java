@@ -85,7 +85,10 @@ public class ImportExtendedMutationData{
         this.swissprotIsAccession = false;
         this.genePanel = genePanel;
         this.filteredMutations = filteredMutations;
-
+        for (String ns : namespaces) {
+            System.out.println("========== NS: " + ns);
+        }
+        this.namespaces = namespaces;
         // create default MutationFilter
         myMutationFilter = new MutationFilter( );
     }

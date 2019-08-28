@@ -231,7 +231,6 @@ public class MafUtil {
         // find required header indices
         for (int i=0; i<parts.length; i++) {
             String header = parts[i];
-
             // put the index to the map
             this.columnIndexMap.put(header.toLowerCase(), i);
 
@@ -368,11 +367,16 @@ public class MafUtil {
                 driverTiersAnnIndex = i;
             }  else if (namespaces != null && !namespaces.isEmpty()) {
                 for (String ns : namespaces) {
-                    if (header.startsWith(ns + ":")) {
-                        String nsKey = header.replaceFirst(ns + ":", "");
-                        Map<String, Integer> nsKeyIndexMap = this.namespaceIndexMap.getOrDefault(ns, new HashMap<String, Integer>());
-                        nsKeyIndexMap.put(nsKey, i);
-                        this.namespaceIndexMap.put(ns, nsKeyIndexMap);
+                    // namespacePrefixLength = 'namespace' + ':'
+                    int namespacePrefixLength = ns.length() + 1; 
+                    if (header.length() > namespacePrefixLength) {
+                        String headerSubstring = header.substring(0, namespacePrefixLength);
+                        if (headerSubstring.equalsIgnoreCase(ns + ":")) {
+                            String nsKey = header.substring(namespacePrefixLength);
+                            Map<String, Integer> nsKeyIndexMap = this.namespaceIndexMap.getOrDefault(ns, new HashMap<String, Integer>());
+                            nsKeyIndexMap.put(nsKey, i);
+                            this.namespaceIndexMap.put(ns, nsKeyIndexMap);
+                        }
                     }
                 }
             }
@@ -381,7 +385,7 @@ public class MafUtil {
 
     public MafRecord parseRecord(String line) {
         String parts[] = line.split("\t", -1);
-
+        
         MafRecord record = new MafRecord();
 
         // standard MAF cols

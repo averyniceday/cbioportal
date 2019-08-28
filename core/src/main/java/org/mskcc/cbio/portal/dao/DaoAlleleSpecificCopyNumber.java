@@ -67,11 +67,23 @@ public final class DaoAlleleSpecificCopyNumber {
                 ascn.getAscnMethod(),
                 Float.toString(ascn.getCcfMCopiesUpper()),
                 Float.toString(ascn.getCcfMCopies()),
-                Boolean.toString(ascn.getClonal()),
+                getBooleanSQLString(ascn.getClonal()),
                 Integer.toString(ascn.getMinorCopyNumber()),
                 Integer.toString(ascn.getMutantCopies()),
                 Integer.toString(ascn.getTotalCopyNumber()));
             return result;
+        }
+    }
+
+    public static String getBooleanSQLString(Boolean bool) {
+        if (bool == null) {
+            return null;
+        } else if (bool) {
+            System.out.println("bool is 1");
+            return "1";
+        } else {
+            System.out.println("bool is 0");
+            return "0";
         }
     }
 }

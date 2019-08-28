@@ -119,7 +119,7 @@ public class MafRecord {
     private String driverFilterAnn;
     private String driverTiersFilter;
     private String driverTiersFilterAnn;
-    private Map<String, Map<String, String>> namespacesMap;
+    private Map<String, Map<String, String>> namespacesMap = new HashMap<String, Map<String, String>>();
 
     public String getChr() {
         return chr;

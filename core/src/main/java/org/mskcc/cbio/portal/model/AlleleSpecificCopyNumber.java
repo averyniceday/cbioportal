@@ -51,7 +51,7 @@ public class AlleleSpecificCopyNumber implements Serializable {
     private Integer totalCopyNumber;
 
     public AlleleSpecificCopyNumber(Map<String,String> ascnData) {
-        this.ascnId = Long.parseLong(ascnData.get("ASCN_ID"));
+        System.out.println("CLONAL IS " + ascnData.get("CLONAL"));
         this.ascnIntegerCopyNumber = !ascnData.get("ASCN_INTEGER_COPY_NUMBER").isEmpty() ? Integer.parseInt(ascnData.get("ASCN_INTEGER_COPY_NUMBER")) : null;
         this.ascnMethod = !ascnData.get("ASCN_METHOD").isEmpty() ? ascnData.get("ASCN_METHOD") : null;
         this.ccfMCopiesUpper = !ascnData.get("CCF_M_COPIES_UPPER").isEmpty() ? Float.parseFloat(ascnData.get("CCF_M_COPIES_UPPER")) : null;
