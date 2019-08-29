@@ -41,7 +41,9 @@ import java.util.*;
  */
 public class AlleleSpecificCopyNumber implements Serializable {
 
-    private long ascnId;
+    private long mutationEventId;
+    private int geneticProfileId;
+    private int sampleId;
     private Integer ascnIntegerCopyNumber;
     private String ascnMethod;
     private Float ccfMCopiesUpper;
@@ -52,23 +54,48 @@ public class AlleleSpecificCopyNumber implements Serializable {
     private Integer totalCopyNumber;
 
     public AlleleSpecificCopyNumber(Map<String,String> ascnData) {
-        this.ascnId = Long.getLong(ascnData.get("ASCN_ID"));
-        this.ascnIntegerCopyNumber = (!ascnData.get("ASCN_INTEGER_COPY_NUMBER").isEmpty() ? Integer.parseInt(ascnData.get("ASCN_INTEGER_COPY_NUMBER")) : null);
-        this.ascnMethod = (!ascnData.get("ASCN_METHOD").isEmpty() ? ascnData.get("ASCN_METHOD") : null);
-        this.ccfMCopiesUpper = (!ascnData.get("CCF_M_COPIES_UPPER").isEmpty() ? Float.parseFloat(ascnData.get("CCF_M_COPIES_UPPER")) : null);
-        this.ccfMCopies = (!ascnData.get("CCF_M_COPIES").isEmpty() ? Float.parseFloat(ascnData.get("CCF_M_COPIES")) : null);
-        this.clonal = (!ascnData.get("CLONAL").isEmpty() ? Boolean.parseBoolean(ascnData.get("CLONAL")) : null);
-        this.minorCopyNumber = (!ascnData.get("MINOR_COPY_NUMBER").isEmpty() ? Integer.parseInt(ascnData.get("MINOR_COPY_NUMBER")) : null);
-        this.mutantCopies = (!ascnData.get("MUTANT_COPIES").isEmpty() ? Integer.parseInt(ascnData.get("MUTANT_COPIES")) : null);
-        this.totalCopyNumber = (!ascnData.get("TOTAL_COPY_NUMBER").isEmpty() ? Integer.parseInt(ascnData.get("TOTAL_COPY_NUMBER")) : null);
-    }
-    
-    public long getAscnId() {
-        return ascnId;
+        System.out.println("Constructing ascn");
+        for (String key : ascnData.keySet()) {
+            System.out.println(key + " ======== " + ascnData.get(key));
+        }
+        this.ascnIntegerCopyNumber = (!ascnData.get("ascn_integer_copy_number").isEmpty() ? Integer.parseInt(ascnData.get("ascn_integer_copy_number")) : null);
+        this.ascnMethod = (!ascnData.get("ascn_method").isEmpty() ? ascnData.get("ascn_method") : null);
+        this.ccfMCopiesUpper = (!ascnData.get("ccf_m_copies_upper").isEmpty() ? Float.parseFloat(ascnData.get("ccf_m_copies_upper")) : null);
+        this.ccfMCopies = (!ascnData.get("ccf_m_copies").isEmpty() ? Float.parseFloat(ascnData.get("ccf_m_copies")) : null);
+        this.clonal = (!ascnData.get("clonal").isEmpty() ? Boolean.parseBoolean(ascnData.get("clonal")) : null);
+        this.minorCopyNumber = (!ascnData.get("minor_copy_number").isEmpty() ? Integer.parseInt(ascnData.get("minor_copy_number")) : null);
+        this.mutantCopies = (!ascnData.get("mutant_copies").isEmpty() ? Integer.parseInt(ascnData.get("mutant_copies")) : null);
+        this.totalCopyNumber = (!ascnData.get("total_copy_number").isEmpty() ? Integer.parseInt(ascnData.get("total_copy_number")) : null);
     }
 
-    public void setAscnId(long ascnId) {
-        this.ascnId = ascnId;
+    public void updateAscnUniqueKeyDetails(ExtendedMutation mutation) {
+        this.mutationEventId = mutation.getMutationEventId();
+        this.geneticProfileId = mutation.getGeneticProfileId();
+        this.sampleId = mutation.getSampleId();
+    }
+
+    public long getMutationEventId() {
+        return mutationEventId;
+    }
+
+    public void setMutationEventId(long mutationEventId) {
+        this.mutationEventId = mutationEventId;
+    }
+
+    public int getGeneticProfileId() {
+        return geneticProfileId;
+    }
+
+    public void setGeneticProfileId(int geneticProfileId) {
+        this.geneticProfileId = geneticProfileId;
+    }
+
+    public int getSampleId() {
+        return sampleId;
+    }
+
+    public void setSampleId(int sampleId) {
+        this.sampleId = sampleId;
     }
 
     public Integer getAscnIntegerCopyNumber() {
