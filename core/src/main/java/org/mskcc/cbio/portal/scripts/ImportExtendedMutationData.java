@@ -418,7 +418,7 @@ public class ImportExtendedMutationData{
                     mutation.setCanonicalTranscript(true);
 
                     AlleleSpecificCopyNumber ascn = null;
-                    if (namespaces.contains(ASCN_NAMESPACE)) {
+                    if (namespaces != null && namespaces.contains(ASCN_NAMESPACE)) {
                         Map<String, String> ascnData = record.getNamespacesMap().remove(ASCN_NAMESPACE);
                         // The AlleleSpecificCopyNumber constructor will construct the record from
                         // the ascnData hashmap and the ascnData will simultaneously be removed from
