@@ -20,6 +20,8 @@ public class JdbcDataSource extends BasicDataSource {
         String url ="jdbc:mysql://" + host + "/" + database +
                         "?user=" + userName + "&password=" + password +
                         "&zeroDateTimeBehavior=convertToNull&useSSL=" + useSSL;
+
+        System.out.println("HERE IS THE URL I AM USING: \n\n\n\n\n\n\n\n\n" + url);
         //  Set up poolable data source
         this.setDriverClassName(mysqlDriverClassName);
         this.setUsername(userName);

@@ -349,6 +349,12 @@ public class GlobalProperties {
          */
         public String getProperty(String key, String defaultValue) {
             String propertyValue = configFileProperties.getProperty(key, defaultValue);
+            if (key.equals("db.connection_string")) {
+                System.out.println("\n\n\n\n>>>>>>>>>>>>>>>>\n\n\n\n\n" + System.getProperty(key, "no exist"));
+            } 
+            if (key.equals("db.portal_db_name")) {
+                System.out.println("\n\n\n\n>>>>>>>>>>>>>>>>\n\n\n\n\n" + System.getProperty(key, "no exist"));
+            } 
             return System.getProperty(key, propertyValue);
         }
         /**
