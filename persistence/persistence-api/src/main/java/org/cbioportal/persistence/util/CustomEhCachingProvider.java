@@ -83,17 +83,20 @@ public class CustomEhCachingProvider extends EhcacheCachingProvider {
     public CacheManager getCacheManager() {
 
         CacheManager toReturn = null;
-         try {
+        try {
             if (cacheEnabled != null && cacheEnabled) {
                 LOG.info("Caching is enabled, using '" + xmlConfigurationFile + "' for configuration");
                 XmlConfiguration xmlConfiguration = new XmlConfiguration(getClass().getResource(xmlConfigurationFile));
 
                 // initilize configurations specific to each individual cache (by template)
                 // to add new cache - create cache configuration with its own resource pool + template
+                //
+                // Set up heap resources
+                // *IMPORTANT* to use disk-only cache remove `.heap(<cache name>, cache size, cache unit)`
                 ResourcePoolsBuilder generalRepositoryCacheResourcePoolsBuilder = ResourcePoolsBuilder.newResourcePoolsBuilder().heap(generalRepositoryCacheMaxMegaBytes, MemoryUnit.MB);
                 ResourcePoolsBuilder staticRepositoryCacheOneResourcePoolsBuilder = ResourcePoolsBuilder.newResourcePoolsBuilder().heap(staticRepositoryCacheOneMaxMegaBytes, MemoryUnit.MB);
 
-                // set up disk resources if we have persistence path
+                // Set up disk resources if we have persistence path
                 File persistenceFile = null;
                 if (persistencePath != null) {
                     persistenceFile = new File(persistencePath);

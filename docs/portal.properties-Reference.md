@@ -289,15 +289,16 @@ Caching is disabled by default. When caching is disabled, no respones will be st
 ehcache.cache_enabled=true
 ```
 
-When caching is enabled, set a cache configuration using `ehcache.xml_configuration`. This should be the name of an Ehcache xml configuration file; the default provided is `ehcache.xml` which configures a hybrid (disk + heap) cache. To change caching configuration, directly edit `/ehcache.xml`. Alternatively, you can create your own Ehcache xml configuration file, place it under `/persistence/persistence-api/src/main/resources/` and set `ehcache.xml_configuration` to `/[Ehcache xml configuration filename]`.  
+When caching is enabled, set a cache configuration using `ehcache.xml_configuration`. This should be the name of an Ehcache xml configuration file; the default provided is `ehcache.xml` which provides a default cache template specifying expiration policy and event logging. To change the cache template, directly edit `/ehcache.xml`. Alternatively, you can create your own Ehcache xml configuration file, place it under `/persistence/persistence-api/src/main/resources/` and set `ehcache.xml_configuration` to `/[Ehcache xml configuration filename]`.  
 ```
 ehcache.xml_configuration=
 ```
 
-If the cache is configured to use disk resources, users must make a directory available and set it with the `ehcache.persistence_path` property. Ehcache will create separate directories under the provided path for each cache defined in the ehcache.xml_configuration file. 
+The cache is configured to use a heap-only cache by default. To use a hybrid cache (heap + disk), users must make a directory available and set it with the `ehcache.persistence_path` property. Ehcache will create separate directories under the provided path for each specified cache. If unset, the cache will deafult to the heap-only cache configuration.
 ```
-ehcache.persistence_path=[location on the disk filesystem where Ehcache can write the cache to /tmp/]
+ehcache.persistence_path=[location on the disk filesystem where Ehcache can write the cache to]
 ```
+Additional caching configuration changes, such as creating new caches or using a disk-only cache, can be made by directly editing the CustomEhCacheProvider class. To learn more, refer to our Caching documentation [here.](Caching.md)
 
 Cache size must be set for heap and/or disk depending on which are in use; Ehcache requires disk size to be greater than heap size in a hybrid configuration. Zero is not a supported size and will cause an exception. Units are in megabytes. Default values are provided. The general repository cache is specified to use 1024MB of heap and 4096MB of disk. The static repository cache is specified to use 30MB of heap and 32MB of disk. For installations with increased traffic or data, cache sizes can be increased to further improve performance. 
 ```
