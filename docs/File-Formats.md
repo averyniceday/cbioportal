@@ -696,14 +696,14 @@ will import the `ASCN.total_copy_number` and `ASCN.clonal` column into the datab
 Allele specific copy number (ASCN) annotation is also supported and may be added using namespaces, described [here](#adding-mutation-annotation-columns-through-namespaces). If ASCN data is present in the MAF, the deployed cBioPortal instance will display additional columns in the mutation table showing ASCN data.
 
 **The ASCN columns below are optional by default. If `ascn` is a defined namespace in `meta_mutations_extended.txt`, then these columns are ALL required. **
-42. **ASCN.ASCN_METHOD (Optional)**: "FACETS" or any method used to obtain ASCN data
-43. **ASCN.CCF_M_COPIES (Optional)**: 
-44. **ASCN.CCF_M_COPIES_UPPER (Optional)**:
-45. **ASCN.MUTANT_COPIES (Optional)**:
-46. **ASCN.CLONAL (Optional)**: "True" or "False"
-47. **ASCN.TOTAL_COPY_NUMBER (Optional)**: total copy number of the gene
-48. **ASCN.MINOR_COPY_NUMBER (Optional)**: copy number of the minor allele
-49. **ASCN.ASCN_INTEGER_COPY_NUMER (Optional)**: 
+42. **ASCN.ASCN_METHOD (Optional)**: Method used to obtain ASCN data e.g "FACETS"
+43. **ASCN.CCF_M_COPIES (Optional)**: Cancer-cell fraction if mutation exists on major allele. 
+44. **ASCN.CCF_M_COPIES_UPPER (Optional)**: Upper error for CCF estimate.
+45. **ASCN.MUTANT_COPIES (Optional)**:i Estimated number of copies harboring mutant allele.
+46. **ASCN.CLONAL (Optional)**: "True" or "False" whether mutation is clonal.
+47. **ASCN.TOTAL_COPY_NUMBER (Optional)**: Total copy number of the gene
+48. **ASCN.MINOR_COPY_NUMBER (Optional)**: Copy number of the minor allele
+49. **ASCN.ASCN_INTEGER_COPY_NUMER (Optional)**: Absolute integer copy-number estimate.
 
 #### Example MAF
 An example MAF can be found in the cBioPortal test study [study_es_0](https://raw.githubusercontent.com/cBioPortal/cbioportal/master/core/src/test/scripts/test_data/study_es_0/brca_tcga_pub.maf).
