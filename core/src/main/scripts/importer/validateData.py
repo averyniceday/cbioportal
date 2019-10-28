@@ -1380,24 +1380,20 @@ class MutationsExtendedValidator(Validator):
             self.logger.error('Column cbp_driver_annotation '
                               'found without any cbp_driver '
                               'column.', extra={'column_number': self.cols.index('cbp_driver_annotation')})
-            num_errors += 1
         if 'cbp_driver_tiers_annotation' in self.cols and 'cbp_driver_tiers' not in self.cols:
             self.logger.error('Column cbp_driver_tiers_annotation '
                               'found without any cbp_driver_tiers '
                               'column.', extra={'column_number': self.cols.index('cbp_driver_tiers_annotation')})
-            num_errors += 1
 
         # raise errors if the "filter" columns are found without the filter_annotations
         if 'cbp_driver' in self.cols and 'cbp_driver_annotation' not in self.cols:
             self.logger.error('Column cbp_driver '
                               'found without any cbp_driver_annotation '
                               'column.', extra={'column_number': self.cols.index('cbp_driver')})
-            num_errors += 1
         if 'cbp_driver_tiers' in self.cols and 'cbp_driver_tiers_annotation' not in self.cols:
             self.logger.error('Column cbp_driver_tiers '
                               'found without any cbp_driver_tiers_annotation '
                               'column.', extra={'column_number': self.cols.index('cbp_driver_tiers')})
-            num_errors += 1
 
         namespaces = []
         missing_ascn_columns = []
