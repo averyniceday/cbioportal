@@ -557,7 +557,7 @@ The mutation metadata file should contain the following fields:
 9. **gene_panel (optional)**: gene panel stable id. See [Gene panels for mutation data](#gene-panels-for-mutation-data).
 10. **swissprot_identifier (optional)**: `accession` or `name`, indicating the type of identifier in the `SWISSPROT` column
 11. **variant_classification_filter (optional)**: List of `Variant_Classifications` values to be filtered out.
-12. **namespaces (optional)**: Comma-delimited list of `namespaces` to import. 
+12. **namespaces (optional)**: Comma-delimited list of `namespaces` to import. See the [Namespaces section](#Namespaces) for more information. 
 
 #### Gene panels for mutation data
 Using the `gene_panel` property it is possible to annotate **all samples in the MAF file** as being profiled on the **same** specified gene panel. 
@@ -577,7 +577,7 @@ For example, given `Reference_Allele` = "G", `Tumor_Seq_Allele` = "-", and `Tumo
 When curating MAF data, it is best practice to leave `Tumor_Seq_Allele1` empty if this information is not provided in your data source to avoid this ambiguity.
 
 #### Namespaces
-The `namespaces` field can be used to specify additional MAF columns for import. This field should contain a comma seperated list of namespaces. Namespaces can be identified as prefixes to an arbitrary set of additional MAF columns (seperated with a period e.g `ASCN.total_copy_number`, `ASCN.minor_copy_number`). All columns with a prefix matching a namespace specified in the metafile will be imported; columns with an unspecified namespace will be ignored. If no additional columns beyond the required set need to be imported, the field should be left blank. 
+The `namespaces` field can be used to specify additional MAF columns for import. This field should contain a comma separated list of namespaces. Namespaces can be identified as prefixes to an arbitrary set of additional MAF columns (separated with a period e.g `ASCN.total_copy_number`, `ASCN.minor_copy_number`). All columns with a prefix matching a namespace specified in the metafile will be imported; columns with an unspecified namespace will be ignored. If no additional columns beyond the required set need to be imported, the field should be left blank. 
 
 #### Example
 An example metadata file would be:
@@ -676,11 +676,8 @@ The `cbp_driver` column flags the mutation as either driver or passenger. In cBi
 You can learn more about configuring these annotations in the [portal.properties documentation](portal.properties-Reference.md#custom-annotation). When properly configured, the customized annotations appear in the "Mutation Color" menu of the OncoPrint view: \
 ![schreenshot mutation color menu](images/screenshot-mutation-color-menu.png) 
 
-#### Adding your own mutation annotation columns
-Adding additional mutation annotation columns to the extended MAF rows can also be done. In this way, the portal will parse and store your own MAF fields in the database. For example, mutation data that you find on cBioPortal.org comes from MAF files that have been further enriched with information from [mutationassessor.org](http://mutationassessor.org/), which leads to a "Mutation Assessor" column in the [mutation table](https://www.cbioportal.org/index.do?cancer_study_list=acc_tcga&cancer_study_id=acc_tcga&genetic_profile_ids_PROFILE_MUTATION_EXTENDED=acc_tcga_mutations&Z_SCORE_THRESHOLD=2.0&RPPA_SCORE_THRESHOLD=2.0&data_priority=0&case_set_id=acc_tcga_sequenced&case_ids=&patient_case_select=sample&gene_set_choice=user-defined-list&gene_list=ZFPM1&clinical_param_selection=null&tab_index=tab_visualize&Action=Submit).
-
 #### Adding mutation annotation columns through namespaces
-Additional columns may also be added into the MAF and imported through the namespace mechanism. Any columns starting with a prefix specified in the `namespaces` field in the metafile will be imported into the database. Namespace columns should be formatted as the namespace and namespace attribute seperated with a period (e.g ASCN.total_copy_number where ASCN is the namespace and total_copy_number is the attribute). 
+Namespaces were introduced to provide support for additional annotation at the sample-variant level within a MAF. Additional columns may be added into the MAF and imported through this namespace mechanism. Any columns starting with a prefix specified in the `namespaces` field in the metafile will be imported into the database. Namespace columns should be formatted as the namespace and namespace attribute separated with a period (e.g ASCN.total_copy_number where ASCN is the namespace and total_copy_number is the attribute). 
 
 An example MAF with the following **additional** columns:
 ```
