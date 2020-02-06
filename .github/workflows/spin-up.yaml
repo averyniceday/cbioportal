@@ -1,0 +1,19 @@
+# action.yml
+name: 'Hello World'
+
+on:
+    push:
+        branches:
+            - github-actions
+
+jobs:
+    attempt:
+        name: "echo"
+        runs-on: ubuntu-latest
+        steps:
+        - name: TEST
+          run: |
+            ls > tmp.out
+            echo $(cat tmp.out)
+        - name: "ugggh"
+          uses: averyniceday/cbioportal/docker/web-and-data@v2
