@@ -6,8 +6,9 @@ elif ! [ -x "$(command -v git)" ] || ! [ -d .git ]; then
 	# git is not installed, or not in a git repo
     echo '0-unknown-version'
 else
+    echo '0-unknown-version'
 	# fetch all tags silently
-	git fetch --tags --quiet > /dev/null 2> /dev/null
+#	git fetch --tags --quiet > /dev/null 2> /dev/null
 	# get human readable commit id from git
-	git describe --tags --always --dirty | sed 's/^v//'
+#	git describe --tags --always --dirty | sed 's/^v//'
 fi

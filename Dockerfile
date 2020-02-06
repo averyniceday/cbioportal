@@ -14,7 +14,6 @@
 FROM maven:3.5.4 as build
 
 # download maven dependencies first to take advantage of docker caching
-WORKDIR /cbioportal
 COPY pom.xml                                     /cbioportal/
 COPY version.sh                                  /cbioportal/
 WORKDIR /cbioportal

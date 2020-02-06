@@ -1,0 +1,19 @@
+name: 'GENIE PORTAL'
+
+on:
+    push:
+        branches:
+            - github-actions
+
+jobs:
+    attempt:
+      name: "Testing Attempt"
+      runs-on: ubuntu-latest
+      steps:
+      - uses:  averyniceday/cbioportal@genie.test
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Curl to docker
+        run:
+          ls > tmp.out
+          echo $(cat tmp.out)
