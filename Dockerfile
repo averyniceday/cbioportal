@@ -37,12 +37,15 @@ RUN mvn dependency:go-offline --fail-never
 COPY $PWD /cbioportal
 RUN mvn -DskipTests clean install
 
+FROM ubuntu:16.04
+RUN apt-get update; apt-get install -y --no-install-recommends libmysql-java
+
 FROM openjdk:8-jre
 
 # download system dependencies first to take advantage of docker caching
 RUN apt-get update; apt-get install -y --no-install-recommends \
         build-essential \
-        libmysql-java \
+        #libmysql-java \
         default-libmysqlclient-dev \
         python3 \
         python3-setuptools \
@@ -74,3 +77,4 @@ ENV PORTAL_HOME=/cbioportal
 
 RUN mkdir -p $PORTAL_WEB_HOME
 RUN unzip /app.war -d  $PORTAL_WEB_HOME
+

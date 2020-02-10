@@ -1,19 +1,19 @@
-name: 'GENIE PORTAL'
+name: 'Cbio Performance Test'
 
 on:
     push:
         branches:
-            - github-actions
+            - cbio
 
 jobs:
     attempt:
-      name: "Testing Attempt"
-      runs-on: ubuntu-latest
+      name: "cbio performance test"
+      runs-on: ubuntu-16.04
       steps:
-      - uses:  averyniceday/cbioportal@genie.test
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - name: Curl to docker
-        run:
-          ls > tmp.out
-          echo $(cat tmp.out)
+      - uses: averyniceday/cbioportal@genie.test
+      - name: sad attempt
+        run: 
+          java -version
+      - name: desperate  attempt
+        run: 
+          ls /cbioportal-webapp
