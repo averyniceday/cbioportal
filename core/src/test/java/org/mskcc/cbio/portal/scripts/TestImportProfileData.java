@@ -317,7 +317,6 @@ public class TestImportProfileData {
                     assertNotNull(canonicalGene);
                     assertEquals(canonicalGene.getEntrezGeneId(), (long) structuralVariant.getSite1EntrezGeneId());
                     assertEquals("ENST00000242365", structuralVariant.getSite1EnsemblTranscriptId());
-                    assertEquals(15, structuralVariant.getSite1Exon());
                     assertEquals("7", structuralVariant.getSite1Chromosome());
                     assertEquals(138536968, structuralVariant.getSite1Position());
                     assertEquals("KIAA1549-BRAF.K16B10.COSF509_1", structuralVariant.getSite1Description());
@@ -325,7 +324,6 @@ public class TestImportProfileData {
                     assertNotNull(canonicalGene);
                     assertEquals(canonicalGene.getEntrezGeneId(), (long) structuralVariant.getSite2EntrezGeneId());
                     assertEquals("ENST00000288602", structuralVariant.getSite2EnsemblTranscriptId());
-                    assertEquals(10, structuralVariant.getSite2Exon());
                     assertEquals("7", structuralVariant.getSite2Chromosome());
                     assertEquals(140482957, structuralVariant.getSite2Position());
                     assertEquals("KIAA1549-BRAF.K16B10.COSF509_2", structuralVariant.getSite2Description());
@@ -343,13 +341,11 @@ public class TestImportProfileData {
                     assertEquals(-1, structuralVariant.getTumorSplitReadCount());
                     assertEquals("KIAA1549-BRAF.K16B10.COSF509", structuralVariant.getAnnotation());
                     assertEquals("NA", structuralVariant.getBreakpointType());
-                    assertEquals("NA", structuralVariant.getCenter());
                     assertEquals("NA", structuralVariant.getConnectionType());
                     assertEquals("Fusion", structuralVariant.getEventInfo());
                     assertEquals("NA", structuralVariant.getVariantClass());
                     assertEquals(-1, structuralVariant.getLength());
                     assertEquals("Gain-of-Function", structuralVariant.getComments());
-                    assertEquals("COSMIC:COSF509", structuralVariant.getExternalAnnotation());
                 }
             }
         }

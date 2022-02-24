@@ -20,11 +20,9 @@ public class TestStructuralVariantUtil {
         record.setSite1EntrezGeneId(654684L);
         record.setSite1HugoSymbol("NA");
         record.setSite1EnsemblTranscriptId("ENST29O3403");
-        record.setSite1Exon(2);
         record.setSite2EntrezGeneId(-1L);
         record.setSite2HugoSymbol("ALK1");
         record.setSite2EnsemblTranscriptId("ENST2843757657");
-        record.setSite2Exon(1);
         Assert.assertTrue(structuralVariantUtil.hasRequiredStructuralVariantFields(record));
     }
 
@@ -36,11 +34,9 @@ public class TestStructuralVariantUtil {
         record.setSite1EntrezGeneId(654684L);
         record.setSite1HugoSymbol("NA");
         record.setSite1EnsemblTranscriptId("ENST29O3403");
-        record.setSite1Exon(2);
         record.setSite2EntrezGeneId(-1L);
         record.setSite2HugoSymbol("ALK1");
         record.setSite2EnsemblTranscriptId("NA");
-        record.setSite2Exon(1);
         Assert.assertFalse(structuralVariantUtil.hasRequiredStructuralVariantFields(record));
     }
 
@@ -53,11 +49,9 @@ public class TestStructuralVariantUtil {
         record.setSite1EntrezGeneId(Long.MIN_VALUE);
         record.setSite1HugoSymbol("NA");
         record.setSite1EnsemblTranscriptId("ENST29O3403");
-        record.setSite1Exon(2);
         record.setSite2EntrezGeneId(Long.MIN_VALUE);
         record.setSite2HugoSymbol("ALK1");
         record.setSite2EnsemblTranscriptId("ENST2843757657");
-        record.setSite2Exon(1);
         Assert.assertFalse(structuralVariantUtil.hasRequiredStructuralVariantFields(record));
     }
 
@@ -70,11 +64,9 @@ public class TestStructuralVariantUtil {
         record.setSite1EntrezGeneId(Long.MIN_VALUE);
         record.setSite1HugoSymbol("NA");
         record.setSite1EnsemblTranscriptId("NA");
-        record.setSite1Exon(-1);
         record.setSite2EntrezGeneId(Long.MIN_VALUE);
         record.setSite2HugoSymbol("ALK1");
         record.setSite2EnsemblTranscriptId("ENST2843757657");
-        record.setSite2Exon(1);
         Assert.assertFalse(structuralVariantUtil.hasRequiredStructuralVariantFields(record));
     }
 
@@ -87,11 +79,9 @@ public class TestStructuralVariantUtil {
         record.setSite1EntrezGeneId(654684L);
         record.setSite1HugoSymbol("NA");
         record.setSite1EnsemblTranscriptId("NA");
-        record.setSite1Exon(-1);
         record.setSite2EntrezGeneId(Long.MIN_VALUE);
         record.setSite2HugoSymbol("ALK1");
         record.setSite2EnsemblTranscriptId("NA");
-        record.setSite2Exon(-1);
         Assert.assertTrue(structuralVariantUtil.hasRequiredStructuralVariantFields(record));
     }
 }

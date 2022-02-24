@@ -153,14 +153,12 @@ public class StructuralVariantControllerTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$[0].site1EntrezGeneId").value((int) TEST_SITE1_ENTREZ_GENE_ID_1))
                 .andExpect(MockMvcResultMatchers.jsonPath("$[0].site1HugoSymbol").value(TEST_SITE1_HUGO_SYMBOL_1))
                 .andExpect(MockMvcResultMatchers.jsonPath("$[0].site1EnsemblTranscriptId").value(TEST_SITE1_ENSEMBL_TRANSCRIPT_ID_1))
-                .andExpect(MockMvcResultMatchers.jsonPath("$[0].site1Exon").value(TEST_SITE1_EXON_1))
                 .andExpect(MockMvcResultMatchers.jsonPath("$[0].site1Chromosome").value(TEST_SITE1_CHROMOSOME_1))
                 .andExpect(MockMvcResultMatchers.jsonPath("$[0].site1Position").value(TEST_SITE1_POSITION_1))
                 .andExpect(MockMvcResultMatchers.jsonPath("$[0].site1Description").value(TEST_SITE1_DESCRIPTION_1))
                 .andExpect(MockMvcResultMatchers.jsonPath("$[0].site2EntrezGeneId").value((int) TEST_SITE2_ENTREZ_GENE_ID_1))
                 .andExpect(MockMvcResultMatchers.jsonPath("$[0].site2HugoSymbol").value(TEST_SITE2_HUGO_SYMBOL_1))
                 .andExpect(MockMvcResultMatchers.jsonPath("$[0].site2EnsemblTranscriptId").value(TEST_SITE2_ENSEMBL_TRANSCRIPT_ID_1))
-                .andExpect(MockMvcResultMatchers.jsonPath("$[0].site2Exon").value(TEST_SITE2_EXON_1))
                 .andExpect(MockMvcResultMatchers.jsonPath("$[0].site2Chromosome").value(TEST_SITE2_CHROMOSOME_1))
                 .andExpect(MockMvcResultMatchers.jsonPath("$[0].site2Position").value(TEST_SITE2_POSITION_1))
                 .andExpect(MockMvcResultMatchers.jsonPath("$[0].site2Description").value(TEST_SITE2_DESCRIPTION_1))
@@ -218,14 +216,12 @@ public class StructuralVariantControllerTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$[0].site1EntrezGeneId").value((int) TEST_SITE1_ENTREZ_GENE_ID_1))
                 .andExpect(MockMvcResultMatchers.jsonPath("$[0].site1HugoSymbol").value(TEST_SITE1_HUGO_SYMBOL_1))
                 .andExpect(MockMvcResultMatchers.jsonPath("$[0].site1EnsemblTranscriptId").value(TEST_SITE1_ENSEMBL_TRANSCRIPT_ID_1))
-                .andExpect(MockMvcResultMatchers.jsonPath("$[0].site1Exon").value(TEST_SITE1_EXON_1))
                 .andExpect(MockMvcResultMatchers.jsonPath("$[0].site1Chromosome").value(TEST_SITE1_CHROMOSOME_1))
                 .andExpect(MockMvcResultMatchers.jsonPath("$[0].site1Position").value(TEST_SITE1_POSITION_1))
                 .andExpect(MockMvcResultMatchers.jsonPath("$[0].site1Description").value(TEST_SITE1_DESCRIPTION_1))
                 .andExpect(MockMvcResultMatchers.jsonPath("$[0].site2EntrezGeneId").value((int) TEST_SITE2_ENTREZ_GENE_ID_1))
                 .andExpect(MockMvcResultMatchers.jsonPath("$[0].site2HugoSymbol").value(TEST_SITE2_HUGO_SYMBOL_1))
                 .andExpect(MockMvcResultMatchers.jsonPath("$[0].site2EnsemblTranscriptId").value(TEST_SITE2_ENSEMBL_TRANSCRIPT_ID_1))
-                .andExpect(MockMvcResultMatchers.jsonPath("$[0].site2Exon").value(TEST_SITE2_EXON_1))
                 .andExpect(MockMvcResultMatchers.jsonPath("$[0].site2Chromosome").value(TEST_SITE2_CHROMOSOME_1))
                 .andExpect(MockMvcResultMatchers.jsonPath("$[0].site2Position").value(TEST_SITE2_POSITION_1))
                 .andExpect(MockMvcResultMatchers.jsonPath("$[0].site2Description").value(TEST_SITE2_DESCRIPTION_1))
@@ -289,14 +285,12 @@ public class StructuralVariantControllerTest {
         structuralVariant1.setSite1EntrezGeneId(TEST_SITE1_ENTREZ_GENE_ID_1);
         structuralVariant1.setSite1HugoSymbol(TEST_SITE1_HUGO_SYMBOL_1);
         structuralVariant1.setSite1EnsemblTranscriptId(TEST_SITE1_ENSEMBL_TRANSCRIPT_ID_1);
-        structuralVariant1.setSite1Exon(TEST_SITE1_EXON_1);
         structuralVariant1.setSite1Chromosome(TEST_SITE1_CHROMOSOME_1);
         structuralVariant1.setSite1Position(TEST_SITE1_POSITION_1);
         structuralVariant1.setSite1Description(TEST_SITE1_DESCRIPTION_1);
         structuralVariant1.setSite2EntrezGeneId(TEST_SITE2_ENTREZ_GENE_ID_1);
         structuralVariant1.setSite2HugoSymbol(TEST_SITE2_HUGO_SYMBOL_1);
         structuralVariant1.setSite2EnsemblTranscriptId(TEST_SITE2_ENSEMBL_TRANSCRIPT_ID_1);
-        structuralVariant1.setSite2Exon(TEST_SITE2_EXON_1);
         structuralVariant1.setSite2Chromosome(TEST_SITE2_CHROMOSOME_1);
         structuralVariant1.setSite2Position(TEST_SITE2_POSITION_1);
         structuralVariant1.setSite2Description(TEST_SITE2_DESCRIPTION_1);
@@ -314,13 +308,11 @@ public class StructuralVariantControllerTest {
         structuralVariant1.setTumorSplitReadCount(TEST_TUMOR_SPLIT_READ_COUNT_1);
         structuralVariant1.setAnnotation(TEST_ANNOTATION_1);
         structuralVariant1.setBreakpointType(TEST_BREAKPOINT_TYPE_1);
-        structuralVariant1.setCenter(TEST_CENTER_1);
         structuralVariant1.setConnectionType(TEST_CONNECTION_TYPE_1);
         structuralVariant1.setEventInfo(TEST_EVENT_INFO_1);
         structuralVariant1.setVariantClass(TEST_VARIANT_CLASS_1);
         structuralVariant1.setLength(TEST_LENGTH_1);
         structuralVariant1.setComments(TEST_COMMENTS_1);
-        structuralVariant1.setExternalAnnotation(TEST_EXTERNAL_ANNOTATION_1);
         structuralVariant1.setDriverFilter(TEST_DRIVER_FILTER_1);
         structuralVariant1.setDriverFilterAnn(TEST_DRIVER_FILTER_ANN_1);
         structuralVariant1.setDriverTiersFilter(TEST_DRIVER_TIERS_FILTER_1);

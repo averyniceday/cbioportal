@@ -47,16 +47,20 @@ public class StructuralVariantUtil {
     public static final String SITE1_ENTREZ_GENE_ID = "Site1_Entrez_Gene_Id";
     public static final String SITE1_HUGO_SYMBOL = "Site1_Hugo_Symbol";
     public static final String SITE1_ENSEMBL_TRANSCRIPT_ID = "Site1_Ensembl_Transcript_Id";
-    public static final String SITE1_EXON = "Site1_Exon";
     public static final String SITE1_CHROMOSOME = "Site1_Chromosome";
     public static final String SITE1_POSITION = "Site1_Position";
+    public static final String SITE1_CONTIG = "Site1_Contig";
+    public static final String SITE1_REGION = "Site1_Region";
+    public static final String SITE1_REGION_NUMBER = "Site1_Region_Number";
     public static final String SITE1_DESCRIPTION = "Site1_Description";
     public static final String SITE2_ENTREZ_GENE_ID = "Site2_Entrez_Gene_Id";
     public static final String SITE2_HUGO_SYMBOL = "Site2_Hugo_Symbol";
     public static final String SITE2_ENSEMBL_TRANSCRIPT_ID = "Site2_Ensembl_Transcript_Id";
-    public static final String SITE2_EXON = "Site2_Exon";
     public static final String SITE2_CHROMOSOME = "Site2_Chromosome";
     public static final String SITE2_POSITION = "Site2_Position";
+    public static final String SITE2_CONTIG = "Site2_Contig";
+    public static final String SITE2_REGION = "Site2_Region";
+    public static final String SITE2_REGION_NUMBER = "Site2_Region_Number";
     public static final String SITE2_DESCRIPTION = "Site2_Description";
     public static final String SITE2_EFFECT_ON_FRAME = "Site2_Effect_On_Frame";
     public static final String NCBI_BUILD = "NCBI_Build";
@@ -72,13 +76,11 @@ public class StructuralVariantUtil {
     public static final String TUMOR_SPLIT_READ_COUNT = "Tumor_Split_Read_Count";
     public static final String ANNOTATION = "Annotation";
     public static final String BREAKPOINT_TYPE = "Breakpoint_Type";
-    public static final String CENTER = "Center";
     public static final String CONNECTION_TYPE = "Connection_Type";
     public static final String EVENT_INFO = "Event_Info";
     public static final String VARIANT_CLASS = "Class";
     public static final String LENGTH = "Length";
     public static final String COMMENTS = "Comments";
-    public static final String EXTERNAL_ANNOTATION = "External_Annotation";
     public static final String DRIVER_FILTER = "cbp_driver";
     public static final String DRIVER_FILTER_ANNOTATION = "cbp_driver_annotation";
     public static final String DRIVER_TIERS_FILTER = "cbp_driver_tiers";
@@ -104,16 +106,20 @@ public class StructuralVariantUtil {
         structuralVariant.setSite1EntrezGeneId(TabDelimitedFileUtil.getPartLong(getColumnIndex(StructuralVariantUtil.SITE1_ENTREZ_GENE_ID), parts));
         structuralVariant.setSite1HugoSymbol(TabDelimitedFileUtil.getPartString(getColumnIndex(StructuralVariantUtil.SITE1_HUGO_SYMBOL), parts));
         structuralVariant.setSite1EnsemblTranscriptId(TabDelimitedFileUtil.getPartString(getColumnIndex(StructuralVariantUtil.SITE1_ENSEMBL_TRANSCRIPT_ID), parts));
-        structuralVariant.setSite1Exon(TabDelimitedFileUtil.getPartInt(getColumnIndex(StructuralVariantUtil.SITE1_EXON), parts));
         structuralVariant.setSite1Chromosome(TabDelimitedFileUtil.getPartString(getColumnIndex(StructuralVariantUtil.SITE1_CHROMOSOME), parts));
         structuralVariant.setSite1Position(TabDelimitedFileUtil.getPartInt(getColumnIndex(StructuralVariantUtil.SITE1_POSITION), parts));
+        structuralVariant.setSite1Contig(TabDelimitedFileUtil.getPartString(getColumnIndex(StructuralVariantUtil.SITE1_CONTIG), parts));
+        structuralVariant.setSite1Region(TabDelimitedFileUtil.getPartString(getColumnIndex(StructuralVariantUtil.SITE1_REGION), parts));
+        structuralVariant.setSite1RegionNumber(TabDelimitedFileUtil.getPartInt(getColumnIndex(StructuralVariantUtil.SITE1_REGION_NUMBER), parts));
         structuralVariant.setSite1Description(TabDelimitedFileUtil.getPartString(getColumnIndex(StructuralVariantUtil.SITE1_DESCRIPTION), parts));
         structuralVariant.setSite2EntrezGeneId(TabDelimitedFileUtil.getPartLong(getColumnIndex(StructuralVariantUtil.SITE2_ENTREZ_GENE_ID), parts));
         structuralVariant.setSite2HugoSymbol(TabDelimitedFileUtil.getPartString(getColumnIndex(StructuralVariantUtil.SITE2_HUGO_SYMBOL), parts));
         structuralVariant.setSite2EnsemblTranscriptId(TabDelimitedFileUtil.getPartString(getColumnIndex(StructuralVariantUtil.SITE2_ENSEMBL_TRANSCRIPT_ID), parts));
-        structuralVariant.setSite2Exon(TabDelimitedFileUtil.getPartInt(getColumnIndex(StructuralVariantUtil.SITE2_EXON), parts));
         structuralVariant.setSite2Chromosome(TabDelimitedFileUtil.getPartString(getColumnIndex(StructuralVariantUtil.SITE2_CHROMOSOME), parts));
         structuralVariant.setSite2Position(TabDelimitedFileUtil.getPartInt(getColumnIndex(StructuralVariantUtil.SITE2_POSITION), parts));
+        structuralVariant.setSite2Contig(TabDelimitedFileUtil.getPartString(getColumnIndex(StructuralVariantUtil.SITE2_CONTIG), parts));
+        structuralVariant.setSite2Region(TabDelimitedFileUtil.getPartString(getColumnIndex(StructuralVariantUtil.SITE2_REGION), parts));
+        structuralVariant.setSite2RegionNumber(TabDelimitedFileUtil.getPartInt(getColumnIndex(StructuralVariantUtil.SITE2_REGION_NUMBER), parts));
         structuralVariant.setSite2Description(TabDelimitedFileUtil.getPartString(getColumnIndex(StructuralVariantUtil.SITE2_DESCRIPTION), parts));
         structuralVariant.setSite2EffectOnFrame(TabDelimitedFileUtil.getPartString(getColumnIndex(StructuralVariantUtil.SITE2_EFFECT_ON_FRAME), parts));
         structuralVariant.setNcbiBuild(TabDelimitedFileUtil.getPartString(getColumnIndex(StructuralVariantUtil.NCBI_BUILD), parts));
@@ -129,13 +135,11 @@ public class StructuralVariantUtil {
         structuralVariant.setTumorSplitReadCount(TabDelimitedFileUtil.getPartInt(getColumnIndex(StructuralVariantUtil.TUMOR_SPLIT_READ_COUNT), parts));
         structuralVariant.setAnnotation(TabDelimitedFileUtil.getPartString(getColumnIndex(StructuralVariantUtil.ANNOTATION), parts));
         structuralVariant.setBreakpointType(TabDelimitedFileUtil.getPartString(getColumnIndex(StructuralVariantUtil.BREAKPOINT_TYPE), parts));
-        structuralVariant.setCenter(TabDelimitedFileUtil.getPartString(getColumnIndex(StructuralVariantUtil.CENTER), parts));
         structuralVariant.setConnectionType(TabDelimitedFileUtil.getPartString(getColumnIndex(StructuralVariantUtil.CONNECTION_TYPE), parts));
         structuralVariant.setEventInfo(TabDelimitedFileUtil.getPartString(getColumnIndex(StructuralVariantUtil.EVENT_INFO), parts));
         structuralVariant.setVariantClass(TabDelimitedFileUtil.getPartString(getColumnIndex(StructuralVariantUtil.VARIANT_CLASS), parts));
         structuralVariant.setLength(TabDelimitedFileUtil.getPartInt(getColumnIndex(StructuralVariantUtil.LENGTH), parts));
         structuralVariant.setComments(TabDelimitedFileUtil.getPartString(getColumnIndex(StructuralVariantUtil.COMMENTS), parts));
-        structuralVariant.setExternalAnnotation(TabDelimitedFileUtil.getPartString(getColumnIndex(StructuralVariantUtil.EXTERNAL_ANNOTATION), parts));
         structuralVariant.setDriverFilter(TabDelimitedFileUtil.getPartString(getColumnIndex(StructuralVariantUtil.DRIVER_FILTER), parts));
         structuralVariant.setDriverFilterAnn(TabDelimitedFileUtil.getPartString(getColumnIndex(StructuralVariantUtil.DRIVER_FILTER_ANNOTATION), parts));
         structuralVariant.setDriverTiersFilter(TabDelimitedFileUtil.getPartString(getColumnIndex(StructuralVariantUtil.DRIVER_TIERS_FILTER), parts));
@@ -191,12 +195,12 @@ public class StructuralVariantUtil {
     public Boolean hasRequiredStructuralVariantFields(StructuralVariant record) {
         Boolean hasNoEnsemblExonValues = (record.getSite1EnsemblTranscriptId().equalsIgnoreCase(TabDelimitedFileUtil.NA_STRING) &&
                 record.getSite2EnsemblTranscriptId().equalsIgnoreCase(TabDelimitedFileUtil.NA_STRING) &&
-                record.getSite1Exon() == -1 &&
-                record.getSite2Exon() == -1);
+                record.getSite1RegionNumber() == -1 &&
+                record.getSite2RegionNumber() == -1);
         Boolean hasAllEnsemblExonValues = (!record.getSite1EnsemblTranscriptId().equalsIgnoreCase(TabDelimitedFileUtil.NA_STRING) &&
                 !record.getSite2EnsemblTranscriptId().equalsIgnoreCase(TabDelimitedFileUtil.NA_STRING) &&
-                record.getSite1Exon() != -1 &&
-                record.getSite2Exon() != -1);
+                record.getSite1RegionNumber() != -1 &&
+                record.getSite2RegionNumber() != -1);
         return ( hasNoEnsemblExonValues || hasAllEnsemblExonValues ) &&
                 (record.getSite1EntrezGeneId() != Long.MIN_VALUE || !record.getSite1HugoSymbol().equalsIgnoreCase(TabDelimitedFileUtil.NA_STRING) || record.getSite2EntrezGeneId() != Long.MIN_VALUE || !record.getSite2HugoSymbol().equalsIgnoreCase(TabDelimitedFileUtil.NA_STRING));
     }
