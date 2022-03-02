@@ -39,7 +39,7 @@ public class DaoStructuralVariant {
      * Adds a new Structural variant record to the database.
      * @param structuralVariant
      * @return number of records successfully added
-     * @throws DaoException 
+     * @throws DaoException
      */
 
     public static void addStructuralVariantToBulkLoader(StructuralVariant structuralVariant) throws DaoException {
@@ -50,7 +50,7 @@ public class DaoStructuralVariant {
                                             "SAMPLE_ID",
                                             "SITE1_ENTREZ_GENE_ID",
                                             "SITE1_ENSEMBL_TRANSCRIPT_ID",
-                                            "SITE1_CHROMOSOME", 
+                                            "SITE1_CHROMOSOME",
                                             "SITE1_POSITION",
                                             "SITE1_CONTIG",
                                             "SITE1_REGION",
@@ -95,9 +95,9 @@ public class DaoStructuralVariant {
            structuralVariant.getSite1EntrezGeneId() == null ? null : Long.toString(structuralVariant.getSite1EntrezGeneId()),
            structuralVariant.getSite1EnsemblTranscriptId(),
            structuralVariant.getSite1Chromosome(),
-           Integer.toString(structuralVariant.getSite1Position()), 
-           structuralVariant.getSite1Contig(), 
-           structuralVariant.getSite1Region(), 
+           Integer.toString(structuralVariant.getSite1Position()),
+           structuralVariant.getSite1Contig(),
+           structuralVariant.getSite1Region(),
            Integer.toString(structuralVariant.getSite1RegionNumber()),
            structuralVariant.getSite1Description(),
            structuralVariant.getSite2EntrezGeneId() == null ? null : Long.toString(structuralVariant.getSite2EntrezGeneId()),

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Memorial Sloan-Kettering Cancer Center.
+ * Copyright (c) 2019 - 2022 Memorial Sloan-Kettering Cancer Center.
  *
  * This library is distributed in the hope that it will be useful, but WITHOUT
  * ANY WARRANTY, WITHOUT EVEN THE IMPLIED WARRANTY OF MERCHANTABILITY OR FITNESS
@@ -86,7 +86,7 @@ public class StructuralVariantUtil {
     public static final String DRIVER_TIERS_FILTER = "cbp_driver_tiers";
     public static final String DRIVER_TIERS_FILTER_ANNOTATION = "cbp_driver_tiers_annotation";
     public static final String SV_STATUS = "Sv_Status";
- 
+
     public StructuralVariantUtil(){}
 
     public StructuralVariantUtil(String line) {
@@ -163,46 +163,64 @@ public class StructuralVariantUtil {
      * Determines whether the structural variant record meets the minimal requirements for import.
      *
      * Structural variant records are valid if:
-     *   (1) Neither Site 1 or Site 2 Ensembl transcript IDs and exons are defined in the record.
-     *   (2) Both Site 1 and Site 2 Ensmebl transcript IDs and exons are defined in the record.
+     *   (1) Neither Site 1 or Site 2 Ensembl transcript IDs and regions are defined in the record.
+     *   (2) Both Site 1 and Site 2 Ensmebl transcript IDs and regions are defined in the record.
+     *   Sample id and SV status are required fields.
      *
      * If a structural variant record has a mix of defined and missing values for Site 1 or Site 2
-     * Ensembl transcript IDs and/or exons then the structural variant record will not be imported.
+     * Ensembl transcript IDs and/or regions then the structural variant record will not be imported.
      *
      * Example (assuming that site 1 or site 2 hugo symbol and/or entrez id are present):
      *
      * Valid Record:
      *     Site 1 Transcript: EST0000024958
-     *     Site 1 Exon: 4
+     *     Site 1 Region: exon
+     *     Site 1 Region number: 5
      *     Site 2 Transcript: EST0001651651
-     *     Site 1 Exon: 2
+     *     Site 1 Region: exon
+     *     Site 1 Region: 7
      *
      * Valid Record:
      *     Site 1 Transcript: NA
-     *     Site 1 Exon: -1
+     *     Site 1 Region: NA
+     *     Site 1 Region number: -1
      *     Site 2 Transcript: NA
-     *     Site 1 Exon: -1
+     *     Site 2 Region: NA
+     *     Site 2 Region number: -1
      *
      * INVALID Record:
      *     Site 1 Transcript: EST0000024958
-     *     Site 1 Exon: -1
+     *     Site 1 Region: NA
+     *     Site 1 Region number: -1
      *     Site 2 Transcript: EST0001651651
-     *     Site 1 Exon: -1
+     *     Site 2 Region: NA
+     *     Site 2 Region number: -1
      *
      * @param record
      * @return
      */
     public Boolean hasRequiredStructuralVariantFields(StructuralVariant record) {
-        Boolean hasNoEnsemblExonValues = (record.getSite1EnsemblTranscriptId().equalsIgnoreCase(TabDelimitedFileUtil.NA_STRING) &&
-                record.getSite2EnsemblTranscriptId().equalsIgnoreCase(TabDelimitedFileUtil.NA_STRING) &&
-                record.getSite1RegionNumber() == -1 &&
-                record.getSite2RegionNumber() == -1);
-        Boolean hasAllEnsemblExonValues = (!record.getSite1EnsemblTranscriptId().equalsIgnoreCase(TabDelimitedFileUtil.NA_STRING) &&
-                !record.getSite2EnsemblTranscriptId().equalsIgnoreCase(TabDelimitedFileUtil.NA_STRING) &&
-                record.getSite1RegionNumber() != -1 &&
-                record.getSite2RegionNumber() != -1);
+        if (record.getSampleId() == null ||
+            record.getSampleId().equalsIgnoreCase(TabDelimitedFileUtil.NA_STRING) ||
+            record.getSvStatus() == null ||
+            record.getSvStatus().equalsIgnoreCase(TabDelimitedFileUtil.NA_STRING)) {
+            return false;
+        }
+        Boolean hasNoEnsemblExonValues = (TabDelimitedFileUtil.NA_STRING.equalsIgnoreCase(record.getSite1EnsemblTranscriptId()) &&
+                TabDelimitedFileUtil.NA_STRING.equalsIgnoreCase(record.getSite2EnsemblTranscriptId()) &&
+                TabDelimitedFileUtil.NA_STRING.equalsIgnoreCase(record.getSite1Region()) &&
+                TabDelimitedFileUtil.NA_STRING.equalsIgnoreCase(record.getSite2Region()) &&
+                (record.getSite1RegionNumber() == null || record.getSite1RegionNumber() == -1) &&
+                (record.getSite2RegionNumber() == null || record.getSite2RegionNumber() == -1));
+        Boolean hasAllEnsemblExonValues = (!TabDelimitedFileUtil.NA_STRING.equalsIgnoreCase(record.getSite1EnsemblTranscriptId()) &&
+                !TabDelimitedFileUtil.NA_STRING.equalsIgnoreCase(record.getSite2EnsemblTranscriptId()) &&
+                !TabDelimitedFileUtil.NA_STRING.equalsIgnoreCase(record.getSite1Region()) &&
+                !TabDelimitedFileUtil.NA_STRING.equalsIgnoreCase(record.getSite2Region()) &&
+                (record.getSite1RegionNumber() != null && record.getSite1RegionNumber() != -1) &&
+                (record.getSite2RegionNumber() != null && record.getSite2RegionNumber() != -1));
+
         return ( hasNoEnsemblExonValues || hasAllEnsemblExonValues ) &&
-                (record.getSite1EntrezGeneId() != Long.MIN_VALUE || !record.getSite1HugoSymbol().equalsIgnoreCase(TabDelimitedFileUtil.NA_STRING) || record.getSite2EntrezGeneId() != Long.MIN_VALUE || !record.getSite2HugoSymbol().equalsIgnoreCase(TabDelimitedFileUtil.NA_STRING));
+                ((record.getSite1EntrezGeneId() != null && record.getSite1EntrezGeneId() != Long.MIN_VALUE) || !TabDelimitedFileUtil.NA_STRING.equalsIgnoreCase(record.getSite1HugoSymbol()) || (record.getSite2EntrezGeneId() != null && record.getSite2EntrezGeneId() != Long.MIN_VALUE) || !TabDelimitedFileUtil.NA_STRING.equalsIgnoreCase(record.getSite2HugoSymbol()));
     }
 
 }
