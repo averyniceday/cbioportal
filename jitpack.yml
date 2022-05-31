@@ -1,0 +1,7 @@
+# configuration file for building snapshots and releases with jitpack.io
+jdk:
+  - openjdk17
+before_install:
+  - sdk update
+  - sdk install java 17.0.1-zulu
+  - sdk use java 17.0.1-zulu
