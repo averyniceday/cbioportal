@@ -161,7 +161,7 @@ public class ImportGenePanelProfileMap extends ConsoleRunnable {
                 // NA triggers specific case to indicate sample was not profiled
                 // e.g. an aggregate study from multiple institutions
                 // one of which definitely did not profile for the sv profile
-                if (NA_STRING.equals(genePanelName)) {
+                if (genePanelName.isEmpty() || NA_STRING.equals(genePanelName)) {
                     continue;
                 }
 
